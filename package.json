@@ -1,0 +1,32 @@
+{
+  "name": "golden-validator",
+  "version": "1.0.0",
+  "description": "An easy peasy validation library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alaboudi/golden-validator.git"
+  },
+  "keywords": [
+    "validator",
+    "validation",
+    "valid",
+    "gold",
+    "golden",
+    "easy",
+    "easy-peasy",
+    "peasy"
+  ],
+  "author": "Yazan Alaboudi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alaboudi/golden-validator/issues"
+  },
+  "homepage": "https://github.com/alaboudi/golden-validator#readme",
+  "devDependencies": {
+    "typescript": "^3.0.3"
+  }
+}
