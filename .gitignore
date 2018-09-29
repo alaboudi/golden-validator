@@ -3,3 +3,6 @@ node_modules
 
 # IDE files & folders
 .idea
+
+# compiled code
+/lib
