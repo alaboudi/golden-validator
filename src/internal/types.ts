@@ -11,9 +11,15 @@ export interface IValidator {
 
 export type ValidatorFactory = (...constraints: any[]) => IValidator;
 
+export enum ObjectType {
+  Rule,
+  Schema,
+}
+
 export interface IRule {
   required: boolean;
   validators: IValidator[];
+  _type: ObjectType.Rule;
 }
 
 export interface ISchema {
