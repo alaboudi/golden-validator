@@ -1,21 +1,21 @@
-export interface Evaluator {
-    (input: any): boolean;
+export type Evaluator = (input: any) => boolean;
+
+export type EvaluatorFactory = (...constraints: any[]) => Evaluator;
+
+export type ErrorMessageFactory = (...constraints: any[]) => string;
+
+export interface IValidator {
+  evaluator: Evaluator;
+  errorMessage: string;
 }
 
-export interface EvaluatorFactory {
-    (...constraints: any[]): Evaluator;
+export type ValidatorFactory = (...constraints: any[]) => IValidator;
+
+export interface IRule {
+  required: boolean;
+  validators: IValidator[];
 }
 
-export interface ErrorMessageFactory {
-    (...constraints: any[]): string
+export interface ISchema {
+  [key: string]: IRule | ISchema;
 }
-
-export interface Validator {
-    evaluator: Evaluator,
-    errorMessage: string,
-}
-
-export interface ValidatorFactory {
-    (...constraints: any[]): Validator
-}
-
