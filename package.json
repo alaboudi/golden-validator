@@ -33,10 +33,16 @@
     "@types/jest": "^23.3.2",
     "husky": "^1.0.1",
     "jest": "^23.6.0",
+    "lint-staged": "^7.3.0",
     "prettier": "^1.14.3",
     "ts-jest": "^23.10.2",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "^3.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": ""
+    }
   }
 }
