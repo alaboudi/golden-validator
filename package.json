@@ -52,6 +52,9 @@
     "*.ts": [
       "tslint -p tsconfig.json --fix",
       "git add"
+    ],
+    "*": [
+      "yarn test"
     ]
   }
 }

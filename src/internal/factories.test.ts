@@ -6,8 +6,12 @@ describe('factory functions', () => {
     const someEvaluatorFactory: EvaluatorFactory = constraint => input => constraint === input;
     const someErrorMessageFactory: ErrorMessageFactory = constraint => `failed to pass ${constraint}`;
     const validatorFactory = createValidatorFactory(someEvaluatorFactory, someErrorMessageFactory);
-    it(`should create object with errorMessage and evaluator keys`, () => {
-      expect(Object.keys(validatorFactory)).toEqual(['errorMessage', 'evaluator']);
+    const validator = validatorFactory(10);
+    it('should return a validator factory function', () => {
+      expect(validatorFactory).toBeInstanceOf(Function);
+    });
+    it('should return an object with errorMessage and evaluator keys when its result value is invoked', () => {
+      expect(Object.keys(validator)).toEqual(['errorMessage', 'evaluator']);
     });
   });
 });
