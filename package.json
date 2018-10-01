@@ -41,7 +41,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && yarn test"
     }
   },
   "lint-staged": {
@@ -52,9 +52,6 @@
     "*.ts": [
       "tslint -p tsconfig.json --fix",
       "git add"
-    ],
-    "*": [
-      "yarn test"
     ]
   }
 }

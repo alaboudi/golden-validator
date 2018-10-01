@@ -4,5 +4,5 @@ export const doesValuePassRule = (value: any, rule: IRule): boolean => {
   if (value === undefined || value === null) {
     return !rule.required;
   }
-  return rule.validators.map(validator => validator.evaluator(value)).reduce((acc, curr) => acc && curr, true);
+  return rule.validators.reduce((acc, validator) => acc && validator.evaluator(value), true);
 };
