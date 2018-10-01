@@ -50,7 +50,7 @@
       "git add"
     ],
     "*.ts": [
-      "tslint -p tsconfig.json",
+      "tslint -p tsconfig.json --fix",
       "git add"
     ]
   }
