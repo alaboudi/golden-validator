@@ -1,6 +1,9 @@
 import { ErrorMessageFactory, EvaluatorFactory } from './types';
 
-export const validatorCreatorFactory = (evaluatorCreator: EvaluatorFactory, errorMessageCreator: ErrorMessageFactory) => (...constraints: any[]) => ({
+export const createValidatorFactory = (
+  evaluatorCreator: EvaluatorFactory,
+  errorMessageCreator: ErrorMessageFactory,
+) => (...constraints: any[]) => ({
+  errorMessage: errorMessageCreator(...constraints),
   evaluator: evaluatorCreator(...constraints),
-  errorMessage: errorMessageCreator(...constraints)
 });
