@@ -31,6 +31,7 @@
   "homepage": "https://github.com/alaboudi/golden-validator#readme",
   "devDependencies": {
     "@types/jest": "^23.3.2",
+    "husky": "^1.0.1",
     "jest": "^23.6.0",
     "prettier": "^1.14.3",
     "ts-jest": "^23.10.2",
