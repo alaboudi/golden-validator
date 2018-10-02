@@ -22,6 +22,4 @@ export interface IRule {
   _type: ObjectType.Rule;
 }
 
-export interface ISchema {
-  [key: string]: IRule;
-}
+export type ISchema<T> = { [key in keyof T]: IRule } & { _type: ObjectType.Schema };

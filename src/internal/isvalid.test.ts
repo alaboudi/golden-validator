@@ -88,7 +88,7 @@ describe('isValid', () => {
     expect(isValid(value, schema)).toBe(false);
   });
   it('should return false if object key fails at least one rule in schema', () => {
-    const schema: ISchema = {
+    const schema: ISchema<any> = {
       firstName: { validators: [fakePassingValidator], _type: ObjectType.Rule },
       lastName: { validators: [fakeFailingValidator], _type: ObjectType.Rule },
     };
@@ -99,7 +99,7 @@ describe('isValid', () => {
     expect(isValid(value, schema)).toBe(false);
   });
   it('should return false if the schema key is not present in the object but is required', () => {
-    const schema: ISchema = {
+    const schema: ISchema<any> = {
       firstName: {
         _type: ObjectType.Rule,
         validators: [fakePassingValidator],
