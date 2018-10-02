@@ -1,4 +1,4 @@
-import { ErrorMessageFactory, EvaluatorFactory, IRule, IValidator, ObjectType } from './types';
+import { ErrorMessageFactory, EvaluatorFactory, IRule, ISchema, IValidator, ObjectType } from './types';
 
 export const createValidatorFactory = (
   evaluatorCreator: EvaluatorFactory,
@@ -12,4 +12,9 @@ export const createRule = (obj: { required?: boolean; validators: IValidator[] }
   _type: ObjectType.Rule,
   required: obj.required || false,
   validators: obj.validators,
+});
+
+export const createSchema = <T>(obj: { [key in keyof T]: IRule }): ISchema<T> => ({
+  ...(obj as any),
+  _type: ObjectType.Schema,
 });

@@ -1,5 +1,5 @@
-import { createRule, createValidatorFactory } from './factories';
-import { ErrorMessageFactory, EvaluatorFactory, ObjectType } from './types';
+import { createRule, createSchema, createValidatorFactory } from './factories';
+import { ErrorMessageFactory, EvaluatorFactory, IRule, IValidator, ObjectType } from './types';
 
 describe('factory functions', () => {
   describe('createValidatorFactory', () => {
@@ -28,5 +28,25 @@ describe('factory functions', () => {
       };
       expect(createRule(obj)).toEqual({ ...obj, required: false, _type: ObjectType.Rule });
     });
+  });
+  describe('createSchema', () => {
+    interface IFakeUser {
+      first: string;
+      last: string;
+    }
+    const fakeTruthyValidator: IValidator = {
+      errorMessage: 'hi',
+      evaluator: () => true,
+    };
+    const fakeTruthyRule: IRule = {
+      _type: ObjectType.Rule,
+      required: true,
+      validators: [fakeTruthyValidator],
+    };
+    const userSchema = createSchema<IFakeUser>({
+      first: fakeTruthyRule,
+      last: fakeTruthyRule,
+    });
+    expect(userSchema).toEqual({ ...userSchema, _type: ObjectType.Schema });
   });
 });

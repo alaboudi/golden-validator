@@ -7,7 +7,7 @@ export const doesValuePassRule = (value: any, rule: IRule): boolean => {
   return rule.validators.reduce((acc, validator) => acc && validator.evaluator(value), true);
 };
 
-export const isValid = (value: any, schema: ISchema): boolean =>
+export const isValid = (value: any, schema: ISchema<any>): boolean =>
   Object.keys(schema).reduce((acc, key) => {
     return doesValuePassRule(value[key], schema[key]) && acc;
   }, true);
