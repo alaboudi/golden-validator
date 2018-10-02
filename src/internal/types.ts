@@ -17,11 +17,11 @@ export enum ObjectType {
 }
 
 export interface IRule {
-  required: boolean;
+  required?: boolean;
   validators: IValidator[];
   _type: ObjectType.Rule;
 }
 
 export interface ISchema {
-  [key: string]: IRule | ISchema;
+  [key: string]: IRule;
 }

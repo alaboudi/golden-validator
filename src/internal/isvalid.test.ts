@@ -1,5 +1,5 @@
-import { doesValuePassRule } from './isvalid';
-import { IRule, IValidator, ObjectType } from './types';
+import { doesValuePassRule, isValid } from './isvalid';
+import { IRule, ISchema, IValidator, ObjectType } from './types';
 
 describe('doesValuePassRule', () => {
   const fakeTruthyValidator: IValidator = {
@@ -63,5 +63,56 @@ describe('doesValuePassRule', () => {
     };
     const value = true;
     expect(doesValuePassRule(value, rule)).toBe(false);
+  });
+});
+
+describe('isValid', () => {
+  const fakePassingValidator: IValidator = {
+    errorMessage: 'my error message',
+    evaluator: () => true,
+  };
+  const fakeFailingValidator: IValidator = {
+    errorMessage: 'my error message',
+    evaluator: () => false,
+  };
+  it('should return true if object passes all schema rules', () => {
+    const rule: IRule = { validators: [fakePassingValidator], _type: ObjectType.Rule };
+    const schema = { name: rule };
+    const value = { name: 'yazan alaboudi' };
+    expect(isValid(value, schema)).toBe(true);
+  });
+  it('should return false if object fails all schema rules', () => {
+    const rule: IRule = { validators: [fakeFailingValidator], _type: ObjectType.Rule };
+    const schema = { name: rule };
+    const value = { name: 'yazan alaboudi' };
+    expect(isValid(value, schema)).toBe(false);
+  });
+  it('should return false if object key fails at least one rule in schema', () => {
+    const schema: ISchema = {
+      firstName: { validators: [fakePassingValidator], _type: ObjectType.Rule },
+      lastName: { validators: [fakeFailingValidator], _type: ObjectType.Rule },
+    };
+    const value = {
+      firstName: 'yazan',
+      lastName: 'alaboudi',
+    };
+    expect(isValid(value, schema)).toBe(false);
+  });
+  it('should return false if the schema key is not present in the object but is required', () => {
+    const schema: ISchema = {
+      firstName: {
+        _type: ObjectType.Rule,
+        validators: [fakePassingValidator],
+      },
+      lastName: {
+        _type: ObjectType.Rule,
+        required: true,
+        validators: [fakePassingValidator],
+      },
+    };
+    const value = {
+      firstName: 'yazan',
+    };
+    expect(isValid(value, schema)).toBe(false);
   });
 });
