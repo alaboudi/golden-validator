@@ -43,10 +43,8 @@ describe('factory functions', () => {
       required: true,
       validators: [fakeTruthyValidator],
     };
-    const userSchema = createSchema<IFakeUser>({
-      first: fakeTruthyRule,
-      last: fakeTruthyRule,
-    });
-    expect(userSchema).toEqual({ ...userSchema, _type: ObjectType.Schema });
+    const rules = { first: fakeTruthyRule, last: fakeTruthyRule };
+    const userSchema = createSchema<IFakeUser>(rules);
+    expect(userSchema).toEqual({ rules, _type: ObjectType.Schema });
   });
 });
