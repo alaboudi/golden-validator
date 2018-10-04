@@ -2,7 +2,8 @@
   "name": "golden-validator",
   "version": "1.0.0",
   "description": "An easy peasy validation library",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "tsc",
