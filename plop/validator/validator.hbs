@@ -1,0 +1,11 @@
+import { createValidatorFactory } from '../factories';
+import { ErrorMessageFactory, EvaluatorFactory, ValidatorFactory } from '../types';
+
+export const create{{ properCase validator }}Evaluator: EvaluatorFactory = constraint => value => // do something
+export const create{{ properCase validator }}Message: ErrorMessageFactory = constraint =>
+`property does not satisfy constraint`;
+
+export const {{ validator }}: ValidatorFactory = createValidatorFactory(
+create{{ properCase validator }}Evaluator,
+create{{ properCase validator }}Message,
+);
