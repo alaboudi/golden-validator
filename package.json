@@ -1,13 +1,17 @@
 {
   "name": "golden-validator",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "An easy peasy validation library",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "tsc",
-    "lint": "tslint -p tsconfig.json"
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn test && yarn lint",
+    "preversion": "yarn test && yarn lint",
+    "postversion": "git push --tags"
   },
   "repository": {
     "type": "git",

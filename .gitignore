@@ -1,5 +1,6 @@
-# dependencies
+# npm related
 node_modules
+yarn-error.log
 
 # IDE files & folders
 .idea
