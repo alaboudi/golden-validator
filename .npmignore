@@ -3,3 +3,5 @@ tsconfig.json
 tslint.json
 .prettierrc
 jestconfig.json
+plop
+plopfile.js
