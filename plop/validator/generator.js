@@ -14,6 +14,11 @@ module.exports = function(plop) {
         path: 'src/internal/validators/{{validator}}.ts',
         templateFile: 'plop/validator/validator.hbs',
       },
+      {
+        type: 'add',
+        path: 'src/internal/validators/{{validator}}.test.ts',
+        templateFile: 'plop/validator/validator.test.hbs',
+      },
     ],
   });
 };

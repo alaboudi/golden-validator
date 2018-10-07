@@ -1,0 +1,14 @@
+import { create{{ properCase validator }}Evaluator, create{{ properCase validator}}ErrorMessage } from './{{validator}}';
+
+describe('create{{ properCase validator }}Evaluator', () => {
+    const {{validator}}Evaluator = create{{ properCase validator }}Evaluator();
+    it('should return a function', () => {
+        expect({{validator}}Evaluator).toBeInstanceOf(Function);
+    });
+});
+
+describe('create{{ properCase validator}}ErrorMessage', () => {
+    it('should create the expected error message', () => {
+        expect(create{{ properCase validator}}ErrorMessage()).toBe('');
+    });
+});
