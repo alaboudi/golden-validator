@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/alaboudi/golden-validator.svg?branch=master)](https://travis-ci.com/alaboudi/golden-validator)
+[![npm](https://img.shields.io/npm/v/golden-validator.svg)](https://npmjs.com/package/golden-validator)
 [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/alaboudi/golden-validator/blob/master/LICENSE)
 
 
