@@ -13,8 +13,8 @@ AT YOUR OWN RISK.*
 The easy peasy validation library!
 
 
-Validation is not new, but it is generally present as a feature of a larger framework. The objectives of this library
-is to have a stand alone validation library that can be used on used anywhere javascript is used. This library is heavily
+Validation is not new and generally present as a feature of a larger framework. With that, the objective of this library
+is to have a standalone validation tool that can be used anywhere Javascript is used. It is heavily
 inspired by the functional programming paradigm and even supports Typescript.
 
 ## Installation
@@ -44,7 +44,7 @@ const userSchema = createSchema<User>({
     })
 });
 
-isValid(user, userSchema) // boolean
+isValid<User>(user, userSchema) // boolean
 ```
 
 ## Custom Usage
@@ -55,18 +55,18 @@ check whether or not a substring is included in a string.
 ```javascript
 const hasSubstring: ValidatorFactory = substring => ({
     evaluator: value => value.includes(substring);
-    errorMessage: 'does not contain substring';
+    errorMessage: `does not contain ${substring}`;
 })
 
 // then you can use it in a schema as such
 const userSchema = createSchema<User>({
-    email: {
+    email: createRule({
         required: true
         validators: [
             hasSubstring('@'),
             ...
         ]
-    }:
+    }):
 
 })
 ```
@@ -79,10 +79,10 @@ you can use a utility function to create your validators.
 import { createValidatorFactory } from 'golden-validator';
 
 const createHasSubstringEvaluator = substring => value => value.includes(substring);
-const hasHasSubstringErrorMessage = substring => 'value does not contain substring';
+const hasSubstringErrorMessage = substring => `value does not contain ${substring}`;
 
 const hasSubstring = createValidatorFactory(
   createHasSubstringEvaluator,
-  hasHasSubstringErrorMessage
+  hasSubstringErrorMessage
 );
 ```
