@@ -1,5 +1,5 @@
 /* Factory functions */
-export { createRule, createSchema } from './internal/factories';
+export { createRule, createSchema, createValidatorFactory } from './internal/factories';
 
 /* Validator Creators */
 export { isGreaterThan } from './internal/validators/isGreaterThan';
