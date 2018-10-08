@@ -1,4 +1,7 @@
 [![Build Status](https://travis-ci.com/alaboudi/golden-validator.svg?branch=master)](https://travis-ci.com/alaboudi/golden-validator)
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/alaboudi/golden-validator/blob/master/LICENSE)
+
+
 
 *THIS LIBRARY IS STILL IN DEVELOPMENT AND IN ALPHA. THIS IS A GREAT TIME TO
 GET INVOLVED WITH CONTRIBUTING TO THIS LIBRARY. ALTHOUGH IT WORKS, USE IT
