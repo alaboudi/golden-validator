@@ -10,6 +10,7 @@ export { isEmail } from './internal/validators/isEmail';
 export { isFalsy } from './internal/validators/isFalsy';
 export { isNumber } from './internal/validators/isNumber';
 export { isTruthy } from './internal/validators/isTruthy';
+export { inEnum } from './internal/validators/inEnum';
 
 /* resulters */
 export { isValid } from './internal/isvalid';
