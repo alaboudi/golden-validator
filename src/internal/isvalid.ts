@@ -1,4 +1,4 @@
-import { IRule, ISchema, IValidator } from './types';
+import { IRule, ISchema, IValidator, ValidationErrors } from './types';
 
 export const doesValuePassValidator = (value: any, validator: IValidator) => {
   try {
@@ -17,6 +17,6 @@ export const doesValuePassRule = (value: any, rule: IRule): boolean => {
 
 export const isValid = <T>(model: T, schema: ISchema<T>): boolean => {
   const rules = schema.rules;
-  const keys = Object.keys(schema.rules) as Array<keyof T>;
+  const keys = Object.keys(rules) as Array<keyof T>;
   return !keys.some(key => !doesValuePassRule(model[key], rules[key]));
 };
