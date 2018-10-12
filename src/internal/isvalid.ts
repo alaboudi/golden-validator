@@ -1,14 +1,18 @@
-import { IRule, ISchema } from './types';
+import { IRule, ISchema, IValidator } from './types';
 
-export const doesValuePassRule = (value: any, rule: IRule): boolean => {
+export const doesValuePassValidator = (value: any, validator: IValidator) => {
   try {
-    if (value === undefined || value === null) {
-      return !rule.required;
-    }
-    return !rule.validators.some(validator => !validator.evaluator(value));
-  } catch (e) {
+    return validator.evaluator(value);
+  } catch {
     return false;
   }
+};
+
+export const doesValuePassRule = (value: any, rule: IRule): boolean => {
+  if (value === undefined || value === null) {
+    return !rule.required;
+  }
+  return !rule.validators.some(validator => !doesValuePassValidator(value, validator));
 };
 
 export const isValid = <T>(model: T, schema: ISchema<T>): boolean => {
