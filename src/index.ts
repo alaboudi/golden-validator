@@ -12,6 +12,7 @@ export { isNumber } from './internal/validators/isNumber';
 export { isTruthy } from './internal/validators/isTruthy';
 export { inEnum } from './internal/validators/inEnum';
 export { hasLengthOf } from './internal/validators/hasLengthOf';
+export { hasMinLengthOf } from './internal/validators/hasMinLengthOf';
 
 /* resulters */
 export { isValid } from './internal/isvalid';
