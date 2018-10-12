@@ -15,4 +15,4 @@ export { hasLengthOf } from './internal/validators/hasLengthOf';
 export { hasMinLengthOf } from './internal/validators/hasMinLengthOf';
 
 /* resulters */
-export { isValid } from './internal/isvalid';
+export { isValid, validate } from './internal/isvalid';
