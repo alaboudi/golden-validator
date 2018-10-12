@@ -4,7 +4,8 @@ import { ErrorMessageFactory, EvaluatorFactory, ValidatorFactory } from '../type
 export const createHasLengthOfEvaluator: EvaluatorFactory = constraint => (value: string | any[]) => {
   return value.length === constraint;
 };
-export const createHasLengthOfErrorMessage: ErrorMessageFactory = constraint => `length does not match ${constraint}`;
+export const createHasLengthOfErrorMessage: ErrorMessageFactory = constraint =>
+  `value length does not match ${constraint}`;
 
 export const hasLengthOf: ValidatorFactory = createValidatorFactory(
   createHasLengthOfEvaluator,

@@ -24,6 +24,6 @@ describe('createHasMinLengthOfEvaluator', () => {
 
 describe('createHasMinLengthOfErrorMessage', () => {
   it('should create the expected error message', () => {
-    expect(createHasMinLengthOfErrorMessage(5)).toBe('length is not greater than 5');
+    expect(createHasMinLengthOfErrorMessage(5)).toBe('value length is not greater than 5');
   });
 });

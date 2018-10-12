@@ -16,6 +16,6 @@ describe('createInEnumEvaluator', () => {
 
 describe('createInEnumErrorMessage', () => {
   it('should create the expected error message', () => {
-    expect(createInEnumErrorMessage()).toBe(`not a valid option`);
+    expect(createInEnumErrorMessage()).toBe(`value is not a valid option`);
   });
 });

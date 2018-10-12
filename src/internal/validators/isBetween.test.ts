@@ -26,6 +26,6 @@ describe('createIsBetweenEvaluator', () => {
 
 describe('createIsBetweenErrorMessage', () => {
   it('should create the default error message', () => {
-    expect(createIsBetweenErrorMessage(5, 10)).toBe('property is not between 5 and 10');
+    expect(createIsBetweenErrorMessage(5, 10)).toBe('value is not between 5 and 10');
   });
 });

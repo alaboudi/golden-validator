@@ -29,6 +29,6 @@ describe('createHasLengthOfEvaluator', () => {
 
 describe('createHasLengthOfErrorMessage', () => {
   it('should create the expected error message', () => {
-    expect(createHasLengthOfErrorMessage(2)).toBe('length does not match 2');
+    expect(createHasLengthOfErrorMessage(2)).toBe('value length does not match 2');
   });
 });

@@ -3,7 +3,7 @@ import { ErrorMessageFactory, EvaluatorFactory, ValidatorFactory } from '../type
 
 export const createIsGreaterThanEvaluator: EvaluatorFactory = constraint => value => value > constraint;
 export const createIsGreaterThanErrorMessage: ErrorMessageFactory = constraint =>
-  `property is not greater than ${constraint}`;
+  `value is not greater than ${constraint}`;
 
 export const isGreaterThan: ValidatorFactory = createValidatorFactory(
   createIsGreaterThanEvaluator,

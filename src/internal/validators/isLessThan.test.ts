@@ -16,6 +16,6 @@ describe('createIsLessThanEvaluator', () => {
 
 describe('createIsLessThanErrorMessage', () => {
   it('should generate the default error message', () => {
-    expect(createIsLessThanErrorMessage(5)).toBe('property is not less than 5');
+    expect(createIsLessThanErrorMessage(5)).toBe('value is not less than 5');
   });
 });
