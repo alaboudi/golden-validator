@@ -28,3 +28,5 @@ export interface ISchema<T> {
   rules: SchemaRules<T>;
   _type: ObjectType.Schema;
 }
+
+export type ValidationErrors<T> = { [key in keyof T]: string[] };

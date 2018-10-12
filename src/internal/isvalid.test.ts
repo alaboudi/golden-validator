@@ -1,5 +1,5 @@
-import { doesValuePassRule, doesValuePassValidator, isValid } from './isvalid';
-import { IRule, ISchema, IValidator, ObjectType } from './types';
+import { doesValuePassRule, doesValuePassValidator, getRuleErrorsByValue, isValid, validate } from './isvalid';
+import { IRule, ISchema, IValidator, ObjectType, ValidationErrors } from './types';
 
 describe('doesValuPassValidator', () => {
   it('should return true if value does pass the validator evaluator', () => {
@@ -160,5 +160,79 @@ describe('isValid', () => {
       firstName: 'yazan',
     };
     expect(isValid(value, schema)).toBe(false);
+  });
+});
+
+describe('getRuleErrorsByValue', () => {
+  const fakeTruthyValidator: IValidator = {
+    errorMessage: 'this should not show up',
+    evaluator: () => true,
+  };
+  const fakeFalsyValidator: IValidator = {
+    errorMessage: 'bazinga',
+    evaluator: () => false,
+  };
+  const fakeFalsyValidator2: IValidator = {
+    errorMessage: 'bowow',
+    evaluator: () => false,
+  };
+  it('should return an array of validator error messages if the validators fail', () => {
+    const fakeRule: IRule = {
+      _type: ObjectType.Rule,
+      required: false,
+      validators: [fakeTruthyValidator, fakeFalsyValidator, fakeFalsyValidator2],
+    };
+    expect(getRuleErrorsByValue(123, fakeRule)).toEqual(['bazinga', 'bowow']);
+  });
+  it('should return an array of validator error messages along with the "required" error message', () => {
+    const fakeRule: IRule = {
+      _type: ObjectType.Rule,
+      required: true,
+      validators: [fakeTruthyValidator, fakeFalsyValidator, fakeFalsyValidator2],
+    };
+    expect(getRuleErrorsByValue(null, fakeRule)).toEqual(['A value is required']);
+  });
+});
+
+describe('validation', () => {
+  interface IFakeUser {
+    name: string;
+    age: number;
+  }
+  const fakeTruthyValidator: IValidator = {
+    errorMessage: 'error message 1',
+    evaluator: () => true,
+  };
+  const fakeFalsyValidator: IValidator = {
+    errorMessage: 'error message 2',
+    evaluator: () => false,
+  };
+  const fakeRule: IRule = {
+    _type: ObjectType.Rule,
+    required: true,
+    validators: [fakeTruthyValidator, fakeFalsyValidator],
+  };
+  const fakeRule2: IRule = {
+    _type: ObjectType.Rule,
+    required: false,
+    validators: [fakeTruthyValidator, fakeFalsyValidator],
+  };
+  it('should return correct object of error message arrays', () => {
+    const fakeUserSchema: ISchema<IFakeUser> = {
+      _type: ObjectType.Schema,
+      rules: {
+        age: fakeRule2,
+        name: fakeRule,
+      },
+    };
+    const fakeUser: IFakeUser = {
+      age: 18,
+      name: null as any,
+    };
+    const expectedValidationErrors: ValidationErrors<IFakeUser> = {
+      age: ['error message 2'],
+      name: ['A value is required'],
+    };
+    expect(validate(fakeUser, fakeUserSchema)).toEqual(expectedValidationErrors);
   });
 });
