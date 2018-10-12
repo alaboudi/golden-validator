@@ -1,5 +1,5 @@
 import { doesValuePassRule, isValid } from './isvalid';
-import { IRule, ISchema, IValidator, ObjectType, SchemaRules } from './types';
+import { IRule, ISchema, IValidator, ObjectType } from './types';
 
 describe('doesValuePassRule', () => {
   const fakeTruthyValidator: IValidator = {
@@ -60,6 +60,18 @@ describe('doesValuePassRule', () => {
       _type: ObjectType.Rule,
       required: true,
       validators: [fakeTruthyValidator, fakeFalsyValidator],
+    };
+    const value = true;
+    expect(doesValuePassRule(value, rule)).toBe(false);
+  });
+  it('should return false if an error is thrown during an evaluation', () => {
+    const errEval = () => {
+      throw new Error();
+    };
+    const rule: IRule = {
+      _type: ObjectType.Rule,
+      required: true,
+      validators: [errEval as any],
     };
     const value = true;
     expect(doesValuePassRule(value, rule)).toBe(false);

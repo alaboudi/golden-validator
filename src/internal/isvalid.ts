@@ -1,10 +1,14 @@
 import { IRule, ISchema } from './types';
 
 export const doesValuePassRule = (value: any, rule: IRule): boolean => {
-  if (value === undefined || value === null) {
-    return !rule.required;
+  try {
+    if (value === undefined || value === null) {
+      return !rule.required;
+    }
+    return !rule.validators.some(validator => !validator.evaluator(value));
+  } catch (e) {
+    return false;
   }
-  return !rule.validators.some(validator => !validator.evaluator(value));
 };
 
 export const isValid = <T>(model: T, schema: ISchema<T>): boolean => {
