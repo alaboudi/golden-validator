@@ -155,6 +155,7 @@ includes validators that would typically be used in most applications.
 |---	                |---	                            |
 |`hasLengthOf`          |`(number) => Validator`            |
 |`hasMinLengthOf`       |`(number) => Validator`            |
+|`hasMaxLengthOf`       |`(number) => Validator`            |
 |`inEnum`               |`(array) => Validator`             |
 |`isBetween`            |`(number, number) => Validator`    |
 |`isEmail`              |`( ) => Validator`                 |
