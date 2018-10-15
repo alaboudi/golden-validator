@@ -13,6 +13,7 @@ export { isTruthy } from './internal/validators/isTruthy';
 export { inEnum } from './internal/validators/inEnum';
 export { hasLengthOf } from './internal/validators/hasLengthOf';
 export { hasMinLengthOf } from './internal/validators/hasMinLengthOf';
+export { hasMaxLengthOf } from './internal/validators/hasMaxLengthOf';
 
 /* resulters */
 export { isValid, validate } from './internal/isvalid';
