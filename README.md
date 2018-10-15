@@ -165,6 +165,7 @@ includes validators that would typically be used in most applications.
 |`isLessThan`           |`(number) => Validator`            |
 |`isNumber`             |`( ) => Validator`                 |
 |`isTruthy`             |`( ) => Validator`                 |
+|`matchesPattern`       |`(RegExp) => Validator`            |
 
 *Note: If you believe that a fundamental validator factory is missing from
 the library, please raise an issue and the need of the validator will be
