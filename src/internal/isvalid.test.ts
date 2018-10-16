@@ -1,4 +1,4 @@
-import { doesValuePassRule, doesValuePassValidator, getRuleErrorsByValue, isValid, validate } from './isvalid';
+import { doesValuePassRule, doesValuePassValidator, getRuleErrors, isValid, validate } from './isvalid';
 import { IRule, ISchema, IValidator, ObjectType, ValidationErrors } from './types';
 
 describe('doesValuPassValidator', () => {
@@ -163,7 +163,7 @@ describe('isValid', () => {
   });
 });
 
-describe('getRuleErrorsByValue', () => {
+describe('getRuleErrors', () => {
   const fakeTruthyValidator: IValidator = {
     errorMessage: 'this should not show up',
     evaluator: () => true,
@@ -182,7 +182,15 @@ describe('getRuleErrorsByValue', () => {
       required: false,
       validators: [fakeTruthyValidator, fakeFalsyValidator, fakeFalsyValidator2],
     };
-    expect(getRuleErrorsByValue(123, fakeRule)).toEqual(['bazinga', 'bowow']);
+    expect(getRuleErrors(123, fakeRule)).toEqual(['bazinga', 'bowow']);
+  });
+  it('should return an empty array if the value is not required and not present', () => {
+    const fakeRule: IRule = {
+      _type: ObjectType.Rule,
+      required: false,
+      validators: [fakeTruthyValidator, fakeFalsyValidator, fakeFalsyValidator2],
+    };
+    expect(getRuleErrors(undefined, fakeRule)).toEqual([]);
   });
   it('should return an array of validator error messages along with the "required" error message', () => {
     const fakeRule: IRule = {
@@ -190,7 +198,7 @@ describe('getRuleErrorsByValue', () => {
       required: true,
       validators: [fakeTruthyValidator, fakeFalsyValidator, fakeFalsyValidator2],
     };
-    expect(getRuleErrorsByValue(null, fakeRule)).toEqual(['A value is required']);
+    expect(getRuleErrors(null, fakeRule)).toEqual(['A value is required']);
   });
 });
 
