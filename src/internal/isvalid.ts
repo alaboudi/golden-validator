@@ -23,14 +23,25 @@ export const isValid = <T>(model: T, schema: ISchema<T>): boolean => {
   return !keys.some(key => !doesValuePassRule(model[key], rules[key]));
 };
 
-export const getRuleErrorsByValue = (value: any, rule: IRule): string[] => {
-  return rule.required && isNullOrUndefined(value)
-    ? [REQUIRED_ERROR_MESSAGE]
-    : rule.validators.reduce(
-        (errors: string[], validator) =>
-          doesValuePassValidator(value, validator) ? errors : [...errors, validator.errorMessage],
-        [],
-      );
+export const getRuleErrorWhenValueUnavailable = (
+  rule: IRule,
+  requiredMessage: string = REQUIRED_ERROR_MESSAGE,
+): string[] => {
+  return rule.required ? [requiredMessage] : [];
+};
+
+export const getRuleErrorWhenValueAvailable = (value: any, rule: IRule): string[] => {
+  return rule.validators.reduce(
+    (errors: string[], validator) =>
+      doesValuePassValidator(value, validator) ? errors : [...errors, validator.errorMessage],
+    [],
+  );
+};
+
+export const getRuleErrors = (value: any, rule: IRule): string[] => {
+  return isNullOrUndefined(value)
+    ? getRuleErrorWhenValueUnavailable(rule)
+    : getRuleErrorWhenValueAvailable(value, rule);
 };
 
 export const validate = <T>(model: T, schema: ISchema<T>): ValidationErrors<T> => {
@@ -39,7 +50,7 @@ export const validate = <T>(model: T, schema: ISchema<T>): ValidationErrors<T> =
   return keys.reduce(
     (validationErrors: ValidationErrors<T>, key) => ({
       ...(validationErrors as any),
-      [key]: getRuleErrorsByValue(model[key], rules[key]),
+      [key]: getRuleErrors(model[key], rules[key]),
     }),
     {},
   );
