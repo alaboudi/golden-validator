@@ -1,8 +1,7 @@
 import { IRule, ISchema, IValidator, ValidationErrors } from './types';
+import { isNullOrUndefined } from './utils';
 
 const REQUIRED_ERROR_MESSAGE = 'A value is required';
-
-export const isNullOrUndefined = (value: any) => value === undefined || value === null;
 
 export const doesValuePassValidator = (value: any, validator: IValidator) => {
   try {
