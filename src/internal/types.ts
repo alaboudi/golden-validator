@@ -22,7 +22,7 @@ export interface IRule {
   _type: ObjectType.Rule;
 }
 
-export type SchemaRules<T> = { [key in keyof T]: IRule };
+export type SchemaRules<T> = { [key in keyof T]: IRule | ISchema<any> };
 
 export interface ISchema<T> {
   rules: SchemaRules<T>;
