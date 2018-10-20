@@ -1,8 +1,7 @@
 import { IRule, ISchema, IValidator, ValidationErrors } from './types';
+import { isNullOrUndefined, isRule, isSchema } from './utils';
 
 const REQUIRED_ERROR_MESSAGE = 'A value is required';
-
-export const isNullOrUndefined = (value: any) => value === undefined || value === null;
 
 export const doesValuePassValidator = (value: any, validator: IValidator) => {
   try {
@@ -20,7 +19,13 @@ export const doesValuePassRule = (value: any, rule: IRule): boolean =>
 export const isValid = <T>(model: T, schema: ISchema<T>): boolean => {
   const rules = schema.rules;
   const keys = Object.keys(rules) as Array<keyof T>;
-  return !keys.some(key => !doesValuePassRule(model[key], rules[key]));
+  return !keys.some(key => {
+    const ruleOrSchema = rules[key];
+    const value = model[key];
+    return isRule(ruleOrSchema)
+      ? !doesValuePassRule(value, ruleOrSchema as IRule)
+      : !isValid(value, ruleOrSchema as ISchema<any>);
+  });
 };
 
 export const getRuleErrorWhenValueUnavailable = (
@@ -47,11 +52,14 @@ export const getRuleErrors = (value: any, rule: IRule): string[] => {
 export const validate = <T>(model: T, schema: ISchema<T>): ValidationErrors<T> => {
   const rules = schema.rules;
   const keys = Object.keys(rules) as Array<keyof T>;
-  return keys.reduce(
-    (validationErrors: ValidationErrors<T>, key) => ({
+  return keys.reduce((validationErrors: ValidationErrors<T>, key) => {
+    const ruleOrSchema = rules[key];
+    const value = model[key];
+    return {
       ...(validationErrors as any),
-      [key]: getRuleErrors(model[key], rules[key]),
-    }),
-    {},
-  );
+      [key]: isRule(ruleOrSchema)
+        ? getRuleErrors(value, ruleOrSchema as IRule)
+        : validate(value, ruleOrSchema as ISchema<any>),
+    };
+  }, {});
 };

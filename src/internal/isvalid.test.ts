@@ -161,6 +161,90 @@ describe('isValid', () => {
     };
     expect(isValid(value, schema)).toBe(false);
   });
+  it('should return true if schema presented has a sub-schema and value passes both schemas', () => {
+    interface IFakePet {
+      breed: string;
+    }
+    const petSchema: ISchema<IFakePet> = {
+      _type: ObjectType.Schema,
+      rules: {
+        breed: {
+          _type: ObjectType.Rule,
+          validators: [fakePassingValidator],
+        },
+      },
+    };
+    interface IFakeUser {
+      firstName: string;
+      lastName: string;
+      pet: IFakePet;
+    }
+    const userSchema: ISchema<IFakeUser> = {
+      _type: ObjectType.Schema,
+      rules: {
+        firstName: {
+          _type: ObjectType.Rule,
+          validators: [fakePassingValidator],
+        },
+        lastName: {
+          _type: ObjectType.Rule,
+          required: true,
+          validators: [fakePassingValidator],
+        },
+        pet: petSchema,
+      },
+    };
+    const value: IFakeUser = {
+      firstName: 'yazan',
+      lastName: 'alaboudi',
+      pet: {
+        breed: 'some-breed',
+      },
+    };
+    expect(isValid(value, userSchema)).toBe(true);
+  });
+  it('should return false if subschema rules are not met', () => {
+    interface IFakePet {
+      breed: string;
+    }
+    const petSchema: ISchema<IFakePet> = {
+      _type: ObjectType.Schema,
+      rules: {
+        breed: {
+          _type: ObjectType.Rule,
+          validators: [fakePassingValidator],
+        },
+      },
+    };
+    interface IFakeUser {
+      firstName: string;
+      lastName: string;
+      pet: IFakePet;
+    }
+    const userSchema: ISchema<IFakeUser> = {
+      _type: ObjectType.Schema,
+      rules: {
+        firstName: {
+          _type: ObjectType.Rule,
+          validators: [fakePassingValidator],
+        },
+        lastName: {
+          _type: ObjectType.Rule,
+          required: true,
+          validators: [fakeFailingValidator],
+        },
+        pet: petSchema,
+      },
+    };
+    const value: IFakeUser = {
+      firstName: 'yazan',
+      lastName: 'alaboudi',
+      pet: {
+        breed: 'some-breed',
+      },
+    };
+    expect(isValid(value, userSchema)).toBe(false);
+  });
 });
 
 describe('getRuleErrors', () => {
@@ -225,7 +309,7 @@ describe('validation', () => {
     required: false,
     validators: [fakeTruthyValidator, fakeFalsyValidator],
   };
-  it('should return correct object of error message arrays', () => {
+  it('should return correct object of error message arrays when only rules are passed in', () => {
     const fakeUserSchema: ISchema<IFakeUser> = {
       _type: ObjectType.Schema,
       rules: {
@@ -242,5 +326,40 @@ describe('validation', () => {
       name: ['A value is required'],
     };
     expect(validate(fakeUser, fakeUserSchema)).toEqual(expectedValidationErrors);
+  });
+  it('should return correct object of error message arrays when supplied with a subschema', () => {
+    interface IPet {
+      breed: string;
+    }
+    const fakePet: IPet = {
+      breed: 'some breed',
+    };
+    interface IUser {
+      name: string;
+      pet: IPet;
+    }
+    const fakeUser: IUser = {
+      name: 'name',
+      pet: fakePet,
+    };
+    const fakePetSchema: ISchema<IPet> = {
+      _type: ObjectType.Schema,
+      rules: {
+        breed: fakeRule,
+      },
+    };
+    const fakeUserSchema: ISchema<IUser> = {
+      _type: ObjectType.Schema,
+      rules: {
+        name: fakeRule,
+        pet: fakePetSchema,
+      },
+    };
+    expect(validate(fakeUser, fakeUserSchema)).toEqual({
+      name: ['error message 2'],
+      pet: {
+        breed: ['error message 2'],
+      },
+    });
   });
 });

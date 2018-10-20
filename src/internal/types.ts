@@ -22,11 +22,11 @@ export interface IRule {
   _type: ObjectType.Rule;
 }
 
-export type SchemaRules<T> = { [key in keyof T]: IRule };
+export type SchemaRules<T> = { [key in keyof T]: IRule | ISchema<any> };
 
 export interface ISchema<T> {
   rules: SchemaRules<T>;
   _type: ObjectType.Schema;
 }
 
-export type ValidationErrors<T> = { [key in keyof T]: string[] };
+export type ValidationErrors<T> = { [key in keyof T]: string[] | ValidationErrors<any> };
