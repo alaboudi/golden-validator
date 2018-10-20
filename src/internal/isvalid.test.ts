@@ -309,7 +309,7 @@ describe('validation', () => {
     required: false,
     validators: [fakeTruthyValidator, fakeFalsyValidator],
   };
-  it('should return correct object of error message arrays', () => {
+  it('should return correct object of error message arrays when only rules are passed in', () => {
     const fakeUserSchema: ISchema<IFakeUser> = {
       _type: ObjectType.Schema,
       rules: {
@@ -326,5 +326,40 @@ describe('validation', () => {
       name: ['A value is required'],
     };
     expect(validate(fakeUser, fakeUserSchema)).toEqual(expectedValidationErrors);
+  });
+  it('should return correct object of error message arrays when supplied with a subschema', () => {
+    interface IPet {
+      breed: string;
+    }
+    const fakePet: IPet = {
+      breed: 'some breed',
+    };
+    interface IUser {
+      name: string;
+      pet: IPet;
+    }
+    const fakeUser: IUser = {
+      name: 'name',
+      pet: fakePet,
+    };
+    const fakePetSchema: ISchema<IPet> = {
+      _type: ObjectType.Schema,
+      rules: {
+        breed: fakeRule,
+      },
+    };
+    const fakeUserSchema: ISchema<IUser> = {
+      _type: ObjectType.Schema,
+      rules: {
+        name: fakeRule,
+        pet: fakePetSchema,
+      },
+    };
+    expect(validate(fakeUser, fakeUserSchema)).toEqual({
+      name: ['error message 2'],
+      pet: {
+        breed: ['error message 2'],
+      },
+    });
   });
 });

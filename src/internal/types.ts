@@ -29,4 +29,4 @@ export interface ISchema<T> {
   _type: ObjectType.Schema;
 }
 
-export type ValidationErrors<T> = { [key in keyof T]: string[] };
+export type ValidationErrors<T> = { [key in keyof T]: string[] | ValidationErrors<any> };

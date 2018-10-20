@@ -20,13 +20,11 @@ export const isValid = <T>(model: T, schema: ISchema<T>): boolean => {
   const rules = schema.rules;
   const keys = Object.keys(rules) as Array<keyof T>;
   return !keys.some(key => {
-      if(isRule(rules[key])) {
-          return !doesValuePassRule(model[key], (rules[key] as IRule));
-      }
-      if(isSchema(rules[key])) {
-          return !isValid(model[key], (rules[key] as ISchema<any>));
-      }
-      return true;
+    const ruleOrSchema = rules[key];
+    const value = model[key];
+    return isRule(ruleOrSchema)
+      ? !doesValuePassRule(value, ruleOrSchema as IRule)
+      : !isValid(value, ruleOrSchema as ISchema<any>);
   });
 };
 
@@ -54,11 +52,14 @@ export const getRuleErrors = (value: any, rule: IRule): string[] => {
 export const validate = <T>(model: T, schema: ISchema<T>): ValidationErrors<T> => {
   const rules = schema.rules;
   const keys = Object.keys(rules) as Array<keyof T>;
-  return keys.reduce(
-    (validationErrors: ValidationErrors<T>, key) => ({
+  return keys.reduce((validationErrors: ValidationErrors<T>, key) => {
+    const ruleOrSchema = rules[key];
+    const value = model[key];
+    return {
       ...(validationErrors as any),
-      [key]: getRuleErrors(model[key], (rules[key] as IRule)),
-    }),
-    {},
-  );
+      [key]: isRule(ruleOrSchema)
+        ? getRuleErrors(value, ruleOrSchema as IRule)
+        : validate(value, ruleOrSchema as ISchema<any>),
+    };
+  }, {});
 };
