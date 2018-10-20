@@ -99,7 +99,52 @@ be generated.
 error messages will be returned. If all validators pass, an empty array
 will be returned.
 
+If you want to validate a nested model structure, you can use a subschema
+to define your schema rules.
 
+```javascript
+const breedRule = createRule({
+    required: false,
+    validators: [ hasMinLengthOf(6) ]
+});
+
+export const petSchema = createSchema<Pet> ({
+    breed: breedRule
+});
+
+
+// you can then use the petSchema as part of your user rule
+import { petSchema } from './pet-schema';
+
+const ageRule = createRule({
+    required: false,
+    validators: [ isNumber() ]
+});
+
+export const userSchema = createSchema<User> ({
+    age: ageRule,
+    pet: petSchema // ------> you can use a schema here
+});
+
+const user: User = {
+    age: '15',
+    pet: {
+        breed: 'corgi'
+    },
+};
+
+console.log(validate(user, userSchema));
+
+/*
+{
+    age: ['value is not a number'],
+    pet: {
+        breed: ['value length is not greater than 6']
+    }
+}
+*/
+
+```
 
 If you are only concerned with a simple answer regarding whether or not the model
 has met the rules in the schema, you can take advantage of the `isValid`
